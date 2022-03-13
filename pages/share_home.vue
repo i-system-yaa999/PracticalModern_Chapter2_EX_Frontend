@@ -19,7 +19,9 @@
     <div class="right_frame">
       <!--  -->
       <div class="tweet" v-show="!comments_open">
-        <ul>
+        <!-- <ul> -->
+        <h2 v-if="nottweets">新規シェアしてください</h2>
+        <ul v-if="!nottweets">
           <h2 class="title">ホーム</h2>
           <li class="list_item" v-for="(tweet_item,index) in tweet_items" :key="index">
               <span>{{tweet_item.tweet_name}} :　</span>
@@ -66,6 +68,7 @@ import firebase from '~/plugins/firebase'
 export default {
   data(){
     return{
+      nottweets:true,
       comments_open:false,
       more_index:0,
       dummy:'　　　　',
@@ -157,7 +160,12 @@ export default {
           .then(response => {
             // alert("完了:gettweet");
           // console.log(response.data);
-            this.tweet_items=response.data;
+            if(!response.data.length==0){
+              this.tweet_items=response.data;
+              this.nottweets=false;
+            }else{
+              this.nottweets=true;
+            }
           }
         );
       } catch(error) {
