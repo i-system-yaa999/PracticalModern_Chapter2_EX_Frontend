@@ -83,6 +83,7 @@ export default {
             nice_count: 0,
           },
       ],
+      new_comment:'',
       comment_item:[],
       comment_items:[
           {
@@ -141,7 +142,7 @@ export default {
             tweet: this.new_tweet,
           },
         ).then(response => {
-            console.log(response.data);
+          // alert(response.data.message);
             // alert('書き込み完了');
             this.comments_open=false;
           }
@@ -158,6 +159,7 @@ export default {
       try{
         await this.$axios.get("http://localhost:8000/api/gettweet",)
           .then(response => {
+          // alert(response.data.message);
             // alert("完了:gettweet");
           // console.log(response.data);
             if(!response.data.length==0){
@@ -192,6 +194,7 @@ export default {
             id:this.tweet_items[index].id,
           }
         ).then(response => {
+          // alert(response.data.message);
           // alert("完了:destroytweet");
           }
         );
@@ -219,12 +222,14 @@ export default {
     async countup(index){
       // alert(index);
       try{
+        const user =firebase.auth().currentUser;
         await this.$axios.post("http://localhost:8000/api/countup",
           {
-            id:this.tweet_items[index].id,
-            // nice_count:this.tweet_items[index].nice_count,
+            tweets_id:this.tweet_items[index].id,
+            like_name: user.displayName,
           }
         ).then(response => {
+          // alert(response.data.message);
           }
         );
       } catch(error) {
@@ -246,6 +251,7 @@ export default {
             id:this.tweet_items[index].id,
           }
         ).then(response => {
+          // alert(response.data.message);
           this.tweet_items[index].nice_count=response.data;
           }
         );
@@ -262,6 +268,7 @@ export default {
             tweets_id:tweetid,
           }
         ).then(response => {
+          // alert(response.data.message);
             this.comment_items=response.data;
           }
         );
@@ -284,7 +291,7 @@ export default {
             comment: this.new_comment,
           },
         ).then(response => {
-            // console.log(response.data);
+          // alert(response.data.message);
             // alert('コメント書き込み完了');
             this.new_comment='';
           }
