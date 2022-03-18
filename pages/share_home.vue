@@ -10,11 +10,16 @@
           <img src="./img/logout.png"><button class="nav-item" @click="logout">ログアウト</button>
         </div>
       </div>
+      <validation-observer ref="obs" v-slot="ObserverProps">
       <div class="new_tweet_fram">
         <p>シェア</p>
-        <textarea v-model="new_tweet" required class="new_inputbox" cols="30" rows="10">ここに</textarea>
-        <button class="btn" @click="newtweet">シェアする</button>
+        <validation-provider v-slot="ProviderProps" rules="required|max:120">
+          <textarea name="tweet" v-model="new_tweet" required class="new_inputbox" cols="30" rows="10">ここに</textarea>
+          <div class="error">{{ ProviderProps.errors[0] }}</div>
+        </validation-provider>
+        <button class="btn" @click="newtweet" :disabled="ObserverProps.invalid || !ObserverProps.validated">シェアする</button>
       </div>
+      </validation-observer>
     </div>
     <div class="right_frame">
       <!--  -->
@@ -33,6 +38,7 @@
         </ul>
       </div>
       <!--  -->
+      <validation-observer ref="obs" v-slot="ObserverProps">
       <div class="comment" v-show="comments_open">
         <ul>
           <h2 class="title">コメント</h2>
@@ -48,12 +54,15 @@
               <p>{{comment_item.comment}}</p>
           </li>
           <li>
-            <textarea v-model="new_comment" required class="new_inputbox" cols="120" rows="4">ここに</textarea>
-            <button class="btn btncomment" @click="addcomment(more_index)">コメント</button>
+            <validation-provider v-slot="ProviderProps" rules="required|max:120">
+              <textarea name="commnet" v-model="new_comment" required class="new_inputbox" cols="120" rows="4">ここに</textarea>
+              <div class="error">{{ ProviderProps.errors[0] }}</div>
+            </validation-provider>
+            <button class="btn btncomment" @click="addcomment(more_index)" :disabled="ObserverProps.invalid || !ObserverProps.validated">コメント</button>
           </li>
         </ul>
       </div>
-
+      </validation-observer>
     </div>
     
     

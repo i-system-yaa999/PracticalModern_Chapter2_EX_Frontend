@@ -8,13 +8,24 @@
         </li>
       </ul>
     </div>
-    <div class="nav-box">
-      <h2>新規登録</h2>
-      <input type="text" name="name" v-model="name" required value="ユーザーネーム" >
-      <input type="email" name="email" v-model="email" required value="メールアドレス">
-      <input type="password" name="password" v-model="password" required value="パスワード">
-      <button @click="register">新規登録</button>
-    </div>
+    <validation-observer ref="obs" v-slot="ObserverProps">
+      <div class="nav-box">
+        <h2>新規登録</h2>
+        <validation-provider v-slot="ProviderProps" rules="required|max:20">
+          <input type="text" name="name" v-model="name" required placeholder="ユーザーネーム" >
+          <div class="error">{{ ProviderProps.errors[0] }}</div>
+        </validation-provider>
+        <validation-provider v-slot="ProviderProps" rules="email">
+          <input type="email" name="email" v-model="email" required placeholder="メールアドレス">
+          <div class="error">{{ ProviderProps.errors[0] }}</div>
+        </validation-provider>
+        <validation-provider v-slot="ProviderProps" rules="required">
+          <input type="password" name="password" v-model="password" required placeholder="パスワード">
+          <div class="error">{{ ProviderProps.errors[0] }}</div>
+        </validation-provider>
+        <button @click="register" :disabled="ObserverProps.invalid || !ObserverProps.validated">新規登録</button>
+      </div>
+    </validation-observer>
   </div>
 </template>
 
@@ -23,9 +34,9 @@ import firebase from '~/plugins/firebase'
 export default {
   data() {
     return {
-      name:'ユーザーネーム',
-      email: 'メールアドレス',
-      password: 'パスワード',
+      name:'',
+      email: '',
+      password: '',
     }
   },
   methods: {
@@ -82,7 +93,7 @@ export default {
 .nav-box{
   background: white;
   width: 400px;
-  height: 300px;
+  height: auto;
   position: absolute;
   
   top: 0;
@@ -92,6 +103,7 @@ export default {
   transform: translateY(70%);
 
   display: grid;
+  text-align: center;
 }
 .nav-box h2{
   width: 300px;

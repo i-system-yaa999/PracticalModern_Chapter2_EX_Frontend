@@ -8,12 +8,20 @@
         </li>
       </ul>
     </div>
-    <div class="nav-box">
-      <h2>ログイン</h2>
-      <input type="email" v-model="email" required value="メールアドレス">
-      <input type="password" v-model="password" required value="パスワード">
-      <button @click="login">ログイン</button>
-    </div>
+    <validation-observer ref="obs" v-slot="ObserverProps">
+      <div class="nav-box">
+        <h2>ログイン</h2>
+        <validation-provider v-slot="ProviderProps" rules="email">
+          <input name="email" type="email" v-model="email" required placeholder="メールアドレス">
+          <div class="error">{{ ProviderProps.errors[0] }}</div>
+        </validation-provider>
+        <validation-provider v-slot="ProviderProps" rules="required">
+          <input name="password" type="password" v-model="password" required placeholder="パスワード">
+          <div class="error">{{ ProviderProps.errors[0] }}</div>
+        </validation-provider>
+        <button @click="login" :disabled="ObserverProps.invalid || !ObserverProps.validated">ログイン</button>
+      </div>
+    </validation-observer>
   </div>
 </template>
 
@@ -22,8 +30,8 @@ import firebase from '~/plugins/firebase'
 export default {
   data() {
     return {
-      email: 'メールアドレス',
-      password: 'パスワード',
+      email: '',
+      password: '',
     }
   },
   methods: {
@@ -75,6 +83,7 @@ export default {
   transform: translateY(70%);
 
   display: grid;
+  text-align: center;
 }
 .nav-box h2{
   width: 300px;
@@ -82,6 +91,7 @@ export default {
   text-align: center;
 }
 .nav-box input{
+  position: relative;
   width: 300px;
   height: 30px;
   margin: 10px auto;
