@@ -1,46 +1,24 @@
 <template>
-  <div class="container">
-    <h1><img src="./img/logo.png" class="title"></h1>
-    <div class="nav">
-      <ul>
-        <!-- <li v-if="!$auth.loggedIn"> -->
-        <!-- <li v-if="!loggedIn"> -->
-          <NuxtLink class="nav-item" to="/register">新規登録</NuxtLink>
-        <!-- </li> -->
-        <!-- <li v-if="!$auth.loggedIn"> -->
-        <!-- <li v-if="!loggedIn"> -->
-          <NuxtLink class="nav-item" to="/login">ログイン</NuxtLink>
-        <!-- </li> -->
-        <!-- <li v-if="$auth.loggedIn"> -->
-        <!-- <li v-if="loggedIn"> -->
-          <!-- <NuxtLink class="nav-item" to="/logout">ログアウト</NuxtLink> -->
-        <!-- </li> -->
-      </ul>
+  <!--  -->
+  <div class="container frame">
+    <!--  -->
+    <div class="header">
+      <!--  -->
+      <h1><a href="/"><img src="./img/logo.png" class="title"></a></h1>
+      <!--  -->
+      <div class="nav">
+        <ul>
+          <button class="btn"><NuxtLink class="nav-item" to="/register">新規登録</NuxtLink></button>
+          <button class="btn"><NuxtLink class="nav-item" to="/login">ログイン</NuxtLink></button>
+        </ul>
+      </div>
+      <!--  -->
     </div>
+    <!--  -->
   </div>
+  <!--  -->
 </template>
 
-
-<script>
-import firebase from '~/plugins/firebase'
-export default {
-  data(){
-    return{
-      loggedIn:false,
-    };
-  },
-  // created:function(){
-  //   firebase.auth().onAuthStateChanged((loginuser) => {
-  //     if (!loginuser) {
-  //       loggedIn=false;
-  //       alert('ログインしていません')
-  //     }else{
-  //       loggedIn=true;
-  //     }
-  //   });
-  // },
-}
-</script>
 
 <style>
 body{
@@ -51,27 +29,46 @@ body{
   width: 150px;
   /* height: 100px; */
 }
-ul{
+ul,li{
   list-style: none;
 }
-
-.container,.register,.login,.logout{
-  display: flex;
-  justify-content: space-between;
-  line-height: 60px;
-  position: relative;
-}
-.nav-item{
-  text-decoration: none;
-  color: white;
-  line-height: 40px;
-  margin-right: 20px;
-  font-size: 16px;
+li{
+  word-wrap: break-word;
+  overflow: auto;
 }
 button:hover{
   cursor: pointer;
 }
+
+
+
 </style>
 
 <style scoped>
+.header{
+  /* display: flex;
+  justify-content: space-between; */
+  line-height: 60px;
+  position: relative;
+}
+.nav ul{
+  margin: 0;
+  padding: 0;
+}
+.nav-item{
+  text-decoration: none;
+  color: white;
+  /* line-height: 40px; */
+  /* margin-right: 20px; */
+  font-size: 16px;
+}
+.btn{
+  height: 40px;
+  width: 120px;
+  background-color: blueviolet;
+  border-radius: 40px;
+  color: white;
+  display: block;
+  margin: 20px auto;
+}
 </style>

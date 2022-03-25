@@ -28,7 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-   {src: '@/plugins/vee-validate.js'},
+    { src: '@/plugins/vee-validate.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,8 +36,12 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+  '@nuxtjs/moment'
   ],
 
+moment: {
+  locales: ['ja']
+},
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios

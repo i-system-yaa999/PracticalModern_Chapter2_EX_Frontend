@@ -1,28 +1,41 @@
 <template>
-  <div class="login">
-    <h1><img src="./img/logo.png" class="title"></h1>
-    <div class="nav">
-      <ul>
-        <li>
-          <NuxtLink class="nav-item" to="/">戻る</NuxtLink>
-        </li>
-      </ul>
+  <!--  -->
+  <div class="login frame">
+    <!--  -->
+    <div class="header">
+      <!--  -->
+      <h1><a href="/"><img src="./img/logo.png" class="title"></a></h1>
+      <!--  -->
+      <div class="nav">
+        <ul>
+          <li>
+            <!-- <NuxtLink class="nav-item" to="/">戻る</NuxtLink> -->
+          </li>
+        </ul>
+      </div>
+      <!--  -->
     </div>
+    <!--  -->
     <validation-observer ref="obs" v-slot="ObserverProps">
       <div class="nav-box">
         <h2>ログイン</h2>
         <validation-provider v-slot="ProviderProps" rules="email">
-          <input name="email" type="email" v-model="email" required placeholder="メールアドレス">
           <div class="error">{{ ProviderProps.errors[0] }}</div>
+          <input name="email" type="email" v-model="email" required placeholder="メールアドレス">
         </validation-provider>
         <validation-provider v-slot="ProviderProps" rules="required">
-          <input name="password" type="password" v-model="password" required placeholder="パスワード">
           <div class="error">{{ ProviderProps.errors[0] }}</div>
+          <input name="password" type="password" v-model="password" required placeholder="パスワード">
         </validation-provider>
-        <button @click="login" :disabled="ObserverProps.invalid || !ObserverProps.validated">ログイン</button>
+        <div>
+          <button @click="rethome">戻る</button>
+          <button @click="login" :disabled="ObserverProps.invalid || !ObserverProps.validated">ログイン</button>
+        </div>
       </div>
     </validation-observer>
+    <!--  -->
   </div>
+  <!--  -->
 </template>
 
 <script>
@@ -35,6 +48,11 @@ export default {
     }
   },
   methods: {
+// ----------------------------------------------------------------------
+    rethome(){
+        this.$router.replace('/');
+    },
+// ----------------------------------------------------------------------
     login() {
       if (!this.email || !this.password) {
         alert('メールアドレスまたはパスワードが入力されていません。');
@@ -42,7 +60,7 @@ export default {
       }
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(() => {
         // alert('ログインが完了しました')         
-        this.$router.push('/share_home')
+        this.$router.push('/share_home');
       })
       .catch((error) => {
         switch (error.code) {
@@ -70,6 +88,13 @@ export default {
 
 
 <style scoped>
+.nav-item{
+  text-decoration: none;
+  color: white;
+  line-height: 40px;
+  margin-right: 20px;
+  font-size: 16px;
+}
 .nav-box{
   background: white;
   width: 400px;
@@ -80,10 +105,16 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
-  transform: translateY(70%);
+  transform: translateY(50%);
 
   display: grid;
   text-align: center;
+}
+@media(max-width:401px){
+  .nav-box{
+  width: 95vw;
+  transform: translateY(25%);
+  }
 }
 .nav-box h2{
   width: 300px;
@@ -104,5 +135,10 @@ export default {
   border-radius:10px;
   color: white;
   background-color: blueviolet;
+}
+.error{
+  margin: 0;
+  padding: 0;
+  height: 30px;
 }
 </style>
