@@ -121,7 +121,7 @@ export default {
   data(){
     return{
       // url:"http://localhost:8000/",
-      url:"https://still-savannah-21619.herokuapp.com",
+      url:"https://still-savannah-21619.herokuapp.com/",
       small_display:false,
       tooltip1:false,
       tooltip2:true,
